@@ -1,0 +1,13 @@
+(Validate Authentication and Authorization)
+
+_http.DefaultRequestHeaders.Authorization =
+    new AuthenticationHeaderValue("Bearer", token);
+
+(Ensure Data Consistency and accuracy)
+
+_cache.Remove("projects");
+_logger.LogInformation(_cache.TryGetValue("projects", out _) ? "Cache hit" : "Cache miss");
+
+(Final UX Pass)
+<img src="@ProfileImageUrl ?? "images/default.png"">
+
