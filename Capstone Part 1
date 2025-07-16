@@ -1,0 +1,53 @@
+(Csharp)
+
+public class PortfolioUser
+{
+    [Key]
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+    public string Bio { get; set; }
+    public string ProfileImageUrl { get; set; }
+
+    public List<Project> Projects { get; set; } = new();
+    public List<Skill> Skills { get; set; } = new();
+}
+
+public class Project
+{
+    [Key]
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string ImageUrl { get; set; }
+
+    [ForeignKey("PortfolioUser")]
+    public int PortfolioUserId { get; set; }
+    public PortfolioUser PortfolioUser { get; set; }
+}
+
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.EnableSensitiveDataLogging();
+}
+
+
+(Quick Scalfold)
+
+<div class="profile-card">
+    <img src="@ProfileImageUrl" alt="@Name" />
+    <h2>@Name</h2>
+    <p>@Bio</p>
+</div>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string Bio { get; set; }
+
+    [Parameter]
+    public string ProfileImageUrl { get; set; }
+}
