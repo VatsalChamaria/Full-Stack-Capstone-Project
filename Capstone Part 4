@@ -1,0 +1,40 @@
+(Csharp)
+
+builder.Services.AddScoped<UserSessionService>();
+@inject UserSessionService Session
+
+_cache.Set("projects", projects, new MemoryCacheEntryOptions
+{
+    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+    SlidingExpiration = TimeSpan.FromMinutes(2),
+    Priority = CacheItemPriority.Normal
+});
+
+(Optimize EF queries)
+
+_context.Projects.AsNoTracking().ToListAsync();
+
+_context.Projects
+        .Include(p => p.PortfolioUser)
+        .Include(p => p.RelatedSkills)
+        .AsNoTracking()
+        .ToListAsync();
+
+(Manage State Bazor)
+
+public class UserSessionService
+{
+    public string UserId { get; set; }
+    public string Role { get; set; }
+    public Project CurrentProject { get; set; }
+}
+
+(Measure Your Wins)
+
+var sw = Stopwatch.StartNew();
+// your logic
+sw.Stop();
+_logger.LogInformation($"Request duration: {sw.ElapsedMilliseconds}ms");
+
+_logger.LogInformation(_cache.TryGetValue("projects", out _) ? "Cache hit" : "Cache miss");
+
